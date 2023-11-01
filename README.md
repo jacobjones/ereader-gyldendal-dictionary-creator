@@ -13,7 +13,7 @@ Based on both [JavaGro](https://github.com/ejvindh/JavaGro/) and [spt-gro](https
 2. A downloaded Gyldendal dictionary (previously at http://ordbog.gyldendal.dk/). Unfortunately, this is now pretty difficult to find. The *.dat and *.gdd files are required once the dictionary has been installed.
 3. (Optional) The full-form list for "Den Danske Ordbog" available [here](https://korpus.dsl.dk/resources/details/ddo-fullforms.html), this provides additional inflected forms that the Gyldendal's Danish–English dictionary is missing.
 4. (StarDict only) StarDict Editor to compile the generated dictionary. Available for multiple platforms [here](https://stardict-4.sourceforge.net/index_en.php).
-5. (Kindle only) The Kindle Previwer is required to generate a dictionary from the generated OPF (XML) file. Available for multiple platforms [here](https://www.amazon.com/Kindle-Previewer/b?node=21381691011). A good write-up about creating a custom Kindle dictionary is [here](https://jakemccrary.com/blog/2020/11/11/creating-a-custom-kindle-dictionary/).
+5. (Kindle only) The Kindle Previewer is required to generate a dictionary from the generated OPF (XML) file. Available for multiple platforms [here](https://www.amazon.com/Kindle-Previewer/b?node=21381691011). A good write-up about creating a custom Kindle dictionary is [here](https://jakemccrary.com/blog/2020/11/11/creating-a-custom-kindle-dictionary/).
 
 ## Running
 
