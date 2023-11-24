@@ -92,7 +92,7 @@ namespace EReaderGyldendalDictionaryCreator.Manager.InflectedForms
             // "sb.", "vb.", "adj.", "adv.", "pron."
             //var validPartsOfSpeech = new[] {"sb.", "vb.", "adj.", "adv.", "pron."};
 
-            var validPartsOfSpeech = LoadAll().Select(x => x.PartOfSpeech).Where(x => !string.IsNullOrEmpty(x))
+            var validPartsOfSpeech = InflectedFormEntries.SelectMany(x => x.Value).Select(x => x.PartOfSpeech).Where(x => !string.IsNullOrEmpty(x))
                 .Distinct().ToList();
 
             var filteredEntries = entries.Where(x => validPartsOfSpeech.Contains(x.PartOfSpeech ?? "")).ToList();
