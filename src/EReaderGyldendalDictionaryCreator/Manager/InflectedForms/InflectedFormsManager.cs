@@ -160,8 +160,11 @@ namespace EReaderGyldendalDictionaryCreator.Manager.InflectedForms
                     
                     entry.Words.Add(inflectedForm);
                 }
-                
-                Console.WriteLine($"[{count.ToString(stringFormat)}/{total}] ({entry.Id}) Adding inflected forms for word {entry.Headword}: {string.Join(", ", addedInflections)}");
+
+                if (addedInflections.Any())
+                {
+                    Console.WriteLine($"[{count.ToString(stringFormat)}/{total}] ({entry.Id}) Adding inflected forms for word {entry.Headword}: {string.Join(", ", addedInflections)}");
+                }
             }
         }
 
