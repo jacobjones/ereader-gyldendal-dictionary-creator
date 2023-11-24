@@ -31,12 +31,22 @@ internal class App
         var entryValues = _dictionaryManager.GetEntries(LookupDirection.FromDanish, 0, count);
         //var entryValues = _dictionaryManager.GetEntries(LookupDirection.FromDanish, 0, 5000);
 
-        var entries = entryValues.Select(entry => _entryMapper.Map(entry.entryId, entry.text))
-            .Where(x => x.Type == EntryType.Standard).ToList();
+        var mappedEntries = entryValues.Select(entry => _entryMapper.Map(entry.entryId, entry.text)).ToList();
         
-        _inflectedFormsManager.AddInflectedForms(entries);
-            
-        var xml = _outputGenerator.Generate(entries);
+        var standardEntries = mappedEntries.Where(x => x.Type == EntryType.Standard).ToList();
+
+        var inflectedEntries = mappedEntries.Where(x => x.Type == EntryType.Inflection).GroupBy(x => x.Headword)
+            .ToDictionary(x => x.Key, x => x.ToList());
+
+        _inflectedFormsManager.MergeInflectedForms(standardEntries, inflectedEntries);
+        _inflectedFormsManager.AddInflectedForms(standardEntries);
+        
+        var xml = _outputGenerator.Generate(standardEntries);
+        
+        // Should have plural "oprindelige"
+        var test1 = standardEntries.SingleOrDefault(x => x.Headword == "oprindelig");
+        // Should have t-form "ensformig"
+        var test2 = standardEntries.SingleOrDefault(x => x.Headword == "ensformigt");
 
         File.WriteAllText("stardict-gyldendal_dansk_engelsk.babylon.txt",xml);
     }

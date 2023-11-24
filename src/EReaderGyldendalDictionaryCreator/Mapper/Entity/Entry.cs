@@ -8,6 +8,7 @@ internal class Entry : IEntry
     }
 
     public int Id { get; set; }
+    public string? PartOfSpeech { get; set; }
     public EntryType Type { get; set; }
     public string Headword { get; set; }
     public string PrimaryWord { get; set; }

@@ -14,7 +14,7 @@ internal class InflectedFormEntry : IInflectedFormEntry
     public int? HomographNumber { get; set; }
         
     [Index(3)]
-    public string Pos { get; set; }
+    public string PartOfSpeech { get; set; }
         
     [Index(4)]
     public int Id { get; set; }
