@@ -26,28 +26,27 @@ internal class App
     {
         // This will do a typical Danish > English search
         //var milkSearch = _dictionaryManager.Search(LookupDirection.FromDanish, SearchType.Lookup, "mælk", true);
-
+        
         var count = _dictionaryManager.GetEntriesCount(LookupDirection.FromDanish);
         var entryValues = _dictionaryManager.GetEntries(LookupDirection.FromDanish, 0, count);
         //var entryValues = _dictionaryManager.GetEntries(LookupDirection.FromDanish, 0, 5000);
 
-        var mappedEntries = entryValues.Select(entry => _entryMapper.Map(entry.entryId, entry.text)).ToList();
+        var entries = entryValues.Select(entry => _entryMapper.Map(entry.entryId, entry.text)).ToList();
         
-        var standardEntries = mappedEntries.Where(x => x.Type == EntryType.Standard).ToList();
+        var standardEntries = entries.Where(x => x.Type == EntryType.Standard).ToList();
 
-        var inflectedEntries = mappedEntries.Where(x => x.Type == EntryType.Inflection).GroupBy(x => x.Headword)
+        var inflectedEntries = entries.Where(x => x.Type == EntryType.Inflection).GroupBy(x => x.Headword)
             .ToDictionary(x => x.Key, x => x.ToList());
 
         _inflectedFormsManager.MergeInflectedForms(standardEntries, inflectedEntries);
         _inflectedFormsManager.AddInflectedForms(standardEntries);
         
-        var xml = _outputGenerator.Generate(standardEntries);
-        
         // Should have plural "oprindelige"
-        var test1 = standardEntries.SingleOrDefault(x => x.Headword == "oprindelig");
-        // Should have t-form "ensformig"
-        var test2 = standardEntries.SingleOrDefault(x => x.Headword == "ensformigt");
-
+        var test1 = standardEntries.SingleOrDefault(x => x.Headword == "oprindelig" && x.Words.Contains("oprindelige"));
+        // Should have t-form "ensformigt"
+        var test2 = standardEntries.SingleOrDefault(x => x.Headword == "ensformig" && x.Words.Contains("ensformigt"));
+        
+        var xml = _outputGenerator.Generate(standardEntries);
         File.WriteAllText("stardict-gyldendal_dansk_engelsk.babylon.txt",xml);
     }
 }

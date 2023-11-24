@@ -23,7 +23,7 @@ namespace EReaderGyldendalDictionaryCreator.Manager.InflectedForms
                 {
                     return _inflectedFormEntries;
                 }
-
+                
                 _inflectedFormEntries = Filter(LoadAll()).GroupBy(x => x.Headword.ToLowerInvariant())
                     .ToDictionary(x => x.Key, x => (ICollection<IInflectedFormEntry>)x.Select(i => i).ToList());
 
@@ -90,13 +90,18 @@ namespace EReaderGyldendalDictionaryCreator.Manager.InflectedForms
         {
             // Nouns, verbs, adjectives, adverbs and pronouns
             // "sb.", "vb.", "adj.", "adv.", "pron."
-            //var validTypes = new[] {"sb.", "vb.", "adj.", "adv.", "pron."};
+            //var validPartsOfSpeech = new[] {"sb.", "vb.", "adj.", "adv.", "pron."};
 
-            var total = entries.Count;
+            var validPartsOfSpeech = LoadAll().Select(x => x.PartOfSpeech).Where(x => !string.IsNullOrEmpty(x))
+                .Distinct().ToList();
+
+            var filteredEntries = entries.Where(x => validPartsOfSpeech.Contains(x.PartOfSpeech ?? "")).ToList();
+
+            var total = filteredEntries.Count;
             var count = 0;
             var stringFormat = $"D{total.ToString().Length}";
 
-            foreach (var entry in entries)
+            foreach (var entry in filteredEntries)
             {
                 count++;
                 
